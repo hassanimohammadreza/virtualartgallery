@@ -1,36 +1,30 @@
-window.addEventListener("load", () => {
-    const previews = document.querySelectorAll(".gallery-item");
+document.addEventListener("DOMContentLoaded", function () {
+  const galleryItems = document.querySelectorAll('.gallery-item');
 
-    previews.forEach((preview) => {
-        const iframe = preview.querySelector("iframe");
+  galleryItems.forEach(item => {
+    const img = item.querySelector('img');
+    
+    // Make sure the image is loaded before calculating its dimensions
+    img.onload = function () {
+      const aspectRatio = img.naturalWidth / img.naturalHeight;
+      const itemWidth = item.offsetWidth;
+      const itemHeight = itemWidth / aspectRatio;
 
-        iframe.onload = function () {
-            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-            const canvas = iframeDocument.querySelector(".canvas");
+      // Adjust the height of the gallery item
+      item.style.height = `${itemHeight + 50}px`; // Add 50px for padding and text
+    }
 
-            if (canvas) {
-                const canvasImage = canvas.toDataURL("image/png");
+    // If the image is already loaded
+    if (img.complete) {
+      img.onload();
+    }
+  });
 
-                const img = document.createElement("img");
-                img.src = canvasImage;
-
-                const previewContainer = preview.querySelector(".preview");
-                previewContainer.innerHTML = '';
-                previewContainer.appendChild(img);
-
-                img.onload = function() {
-                    const imgWidth = img.naturalWidth;
-                    const imgHeight = img.naturalHeight;
-
-                    const containerWidth = previewContainer.offsetWidth;
-                    const containerHeight = previewContainer.offsetHeight;
-
-                    const scaleFactor = Math.min(containerWidth / imgWidth, containerHeight / imgHeight);
-
-                    img.style.width = `${imgWidth * scaleFactor}px`;
-                    img.style.height = `${imgHeight * scaleFactor}px`;
-                };
-            }
-        };
-    });
+  // Ensure the footer sticks to the bottom if the content is small
+  const footer = document.querySelector('footer');
+  if (document.body.scrollHeight <= window.innerHeight) {
+    footer.style.position = 'absolute';
+    footer.style.bottom = '0';
+    footer.style.width = '100%';
+  }
 });

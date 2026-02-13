@@ -16,13 +16,13 @@ body {
   width: 750px;
   height: 550px;
   display: grid;
-  border: 6px solid #30303a;
+  border: 6px solid #000;
   grid-template-columns: 8fr 3fr 5fr 2.5fr;
   grid-template-rows: 2fr 0.8fr 1.5fr 1.5fr 1.5fr 4fr;
 }
 
 .canvas div {
-  border: 6px solid #30303a;
+  border: 6px solid #000;
 }
 
 .red {
